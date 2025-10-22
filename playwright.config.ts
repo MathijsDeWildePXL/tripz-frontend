@@ -5,5 +5,7 @@ export default defineConfig({
 		command: 'npm run build && npm run preview',
 		port: 4173
 	},
-	testDir: 'e2e'
+	testDir: 'e2e',
+	reporter: 'html',
+	outputDir: 'playwright-report'
 });
