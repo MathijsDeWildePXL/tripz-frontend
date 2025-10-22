@@ -50,7 +50,7 @@
 
 		<!-- Features Section -->
 		<div class="mb-16 grid gap-8 md:grid-cols-3">
-			{#each features as feature}
+			{#each features as feature (feature.title)}
 				<div
 					class="rounded-xl bg-white p-6 shadow-lg transition-shadow duration-300 hover:shadow-xl"
 				>
@@ -87,7 +87,7 @@
 		<div class="mb-16 text-center">
 			<h2 class="mb-8 text-3xl font-bold text-gray-800">Built With</h2>
 			<div class="flex flex-wrap justify-center gap-4">
-				{#each ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'GitHub Actions'] as tech}
+				{#each ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'GitHub Actions'] as tech (tech)}
 					<span
 						class="rounded-full bg-gray-200 px-4 py-2 font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-300"
 					>
