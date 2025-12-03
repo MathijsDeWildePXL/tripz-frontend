@@ -29,7 +29,7 @@
 			const response = await fetch(`${API_URL}/Trips`, {
 				method: 'POST',
 				headers: {
-					'Accept': '*/*',
+					Accept: '*/*',
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
@@ -69,7 +69,8 @@
 			}, 2000);
 		} catch (error) {
 			console.error('Error submitting trip:', error);
-			errors.submit = error instanceof Error ? error.message : 'An error occurred while submitting the trip';
+			errors.submit =
+				error instanceof Error ? error.message : 'An error occurred while submitting the trip';
 			isLoading = false;
 		}
 	}
@@ -95,7 +96,10 @@
 		if (!formData.purpose) errors.purpose = 'Purpose is required';
 		if (!formData.estimatedCost) {
 			errors.estimatedCost = 'Cost is required';
-		} else if (isNaN(parseFloat(formData.estimatedCost)) || parseFloat(formData.estimatedCost) < 0) {
+		} else if (
+			isNaN(parseFloat(formData.estimatedCost)) ||
+			parseFloat(formData.estimatedCost) < 0
+		) {
 			errors.estimatedCost = 'Cost must be a positive number';
 		}
 
@@ -127,29 +131,29 @@
 
 		<div class="bg-white p-6 shadow-sm">
 			{#if submitted}
-				<div class="mb-6 rounded-lg bg-green-50 p-4 text-green-800 border border-green-200">
+				<div class="mb-6 rounded-lg border border-green-200 bg-green-50 p-4 text-green-800">
 					<p class="font-semibold">✓ Trip registered successfully!</p>
-					<p class="text-sm mt-1">Your trip has been added to the system.</p>
+					<p class="mt-1 text-sm">Your trip has been added to the system.</p>
 				</div>
 			{/if}
 
 			{#if errors.submit}
-				<div class="mb-6 rounded-lg bg-red-50 p-4 text-red-800 border border-red-200">
+				<div class="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800">
 					<p class="font-semibold">✗ Error</p>
-					<p class="text-sm mt-1">{errors.submit}</p>
+					<p class="mt-1 text-sm">{errors.submit}</p>
 				</div>
 			{/if}
 
 			<form on:submit|preventDefault={handleSubmit} class="space-y-5">
 				<div>
-					<label for="departureDate" class="block text-xs font-semibold text-gray-700 mb-2">
+					<label for="departureDate" class="mb-2 block text-xs font-semibold text-gray-700">
 						Departure Date
 					</label>
 					<input
 						type="datetime-local"
 						id="departureDate"
 						bind:value={formData.departureDate}
-						class={`w-full rounded px-3 py-2 bg-gray-50 border text-sm transition-colors duration-200 focus:outline-none ${
+						class={`w-full rounded border bg-gray-50 px-3 py-2 text-sm transition-colors duration-200 focus:outline-none ${
 							errors.departureDate
 								? 'border-red-500 focus:border-red-600'
 								: 'border-gray-300 focus:border-blue-500'
@@ -161,14 +165,14 @@
 				</div>
 
 				<div>
-					<label for="returnDate" class="block text-xs font-semibold text-gray-700 mb-2">
+					<label for="returnDate" class="mb-2 block text-xs font-semibold text-gray-700">
 						Return Date
 					</label>
 					<input
 						type="datetime-local"
 						id="returnDate"
 						bind:value={formData.returnDate}
-						class={`w-full rounded px-3 py-2 bg-gray-50 border text-sm transition-colors duration-200 focus:outline-none ${
+						class={`w-full rounded border bg-gray-50 px-3 py-2 text-sm transition-colors duration-200 focus:outline-none ${
 							errors.returnDate
 								? 'border-red-500 focus:border-red-600'
 								: 'border-gray-300 focus:border-blue-500'
@@ -180,7 +184,7 @@
 				</div>
 
 				<div>
-					<label for="destination" class="block text-xs font-semibold text-gray-700 mb-2">
+					<label for="destination" class="mb-2 block text-xs font-semibold text-gray-700">
 						Destination/Route
 					</label>
 					<input
@@ -188,7 +192,7 @@
 						id="destination"
 						placeholder="Enter destination or route"
 						bind:value={formData.destination}
-						class={`w-full rounded px-3 py-2 bg-gray-50 border text-sm transition-colors duration-200 focus:outline-none ${
+						class={`w-full rounded border bg-gray-50 px-3 py-2 text-sm transition-colors duration-200 focus:outline-none ${
 							errors.destination
 								? 'border-red-500 focus:border-red-600'
 								: 'border-gray-300 focus:border-blue-500'
@@ -200,7 +204,7 @@
 				</div>
 
 				<div>
-					<label for="distance" class="block text-xs font-semibold text-gray-700 mb-2">
+					<label for="distance" class="mb-2 block text-xs font-semibold text-gray-700">
 						Distance (km)
 					</label>
 					<input
@@ -209,7 +213,7 @@
 						placeholder="Enter distance"
 						step="0.01"
 						bind:value={formData.distance}
-						class={`w-full rounded px-3 py-2 bg-gray-50 border text-sm transition-colors duration-200 focus:outline-none ${
+						class={`w-full rounded border bg-gray-50 px-3 py-2 text-sm transition-colors duration-200 focus:outline-none ${
 							errors.distance
 								? 'border-red-500 focus:border-red-600'
 								: 'border-gray-300 focus:border-blue-500'
@@ -221,13 +225,13 @@
 				</div>
 
 				<div>
-					<label for="transportType" class="block text-xs font-semibold text-gray-700 mb-2">
+					<label for="transportType" class="mb-2 block text-xs font-semibold text-gray-700">
 						Transport Type
 					</label>
 					<select
 						id="transportType"
 						bind:value={formData.transportType}
-						class={`w-full rounded px-3 py-2 bg-gray-50 border text-sm transition-colors duration-200 focus:outline-none ${
+						class={`w-full rounded border bg-gray-50 px-3 py-2 text-sm transition-colors duration-200 focus:outline-none ${
 							errors.transportType
 								? 'border-red-500 focus:border-red-600'
 								: 'border-gray-300 focus:border-blue-500'
@@ -244,7 +248,7 @@
 				</div>
 
 				<div>
-					<label for="purpose" class="block text-xs font-semibold text-gray-700 mb-2">
+					<label for="purpose" class="mb-2 block text-xs font-semibold text-gray-700">
 						Purpose
 					</label>
 					<input
@@ -252,7 +256,7 @@
 						id="purpose"
 						placeholder="Enter purpose"
 						bind:value={formData.purpose}
-						class={`w-full rounded px-3 py-2 bg-gray-50 border text-sm transition-colors duration-200 focus:outline-none ${
+						class={`w-full rounded border bg-gray-50 px-3 py-2 text-sm transition-colors duration-200 focus:outline-none ${
 							errors.purpose
 								? 'border-red-500 focus:border-red-600'
 								: 'border-gray-300 focus:border-blue-500'
@@ -264,7 +268,7 @@
 				</div>
 
 				<div>
-					<label for="estimatedCost" class="block text-xs font-semibold text-gray-700 mb-2">
+					<label for="estimatedCost" class="mb-2 block text-xs font-semibold text-gray-700">
 						Estimated Cost
 					</label>
 					<input
@@ -273,7 +277,7 @@
 						placeholder="Enter cost"
 						step="0.01"
 						bind:value={formData.estimatedCost}
-						class={`w-full rounded px-3 py-2 bg-gray-50 border text-sm transition-colors duration-200 focus:outline-none ${
+						class={`w-full rounded border bg-gray-50 px-3 py-2 text-sm transition-colors duration-200 focus:outline-none ${
 							errors.estimatedCost
 								? 'border-red-500 focus:border-red-600'
 								: 'border-gray-300 focus:border-blue-500'
@@ -289,14 +293,14 @@
 						type="button"
 						on:click={handleCancel}
 						disabled={isLoading}
-						class="flex-1 rounded px-4 py-2 bg-gray-200 font-semibold text-gray-700 transition-colors duration-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+						class="flex-1 rounded bg-gray-200 px-4 py-2 font-semibold text-gray-700 transition-colors duration-200 hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
 					>
 						Cancel
 					</button>
 					<button
 						type="submit"
 						disabled={isLoading}
-						class="flex-1 rounded px-4 py-2 bg-blue-600 font-semibold text-white transition-colors duration-200 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+						class="flex-1 rounded bg-blue-600 px-4 py-2 font-semibold text-white transition-colors duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
 					>
 						{isLoading ? 'Submitting...' : 'Submit Trip'}
 					</button>
