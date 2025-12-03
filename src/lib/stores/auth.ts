@@ -1,12 +1,12 @@
-import { writable } from "svelte/store";
-import type { User } from "$lib/types";
+import { writable } from 'svelte/store';
+import type { User } from '$lib/types';
 
-export const user = writable<User | null>(null);;
+export const user = writable<User | null>(null);
 
 export function setUser(u: User) {
-    user.set(u);
+	user.set(u);
 }
 
 export function logout() {
-    user.set(null);
+	user.set(null);
 }
