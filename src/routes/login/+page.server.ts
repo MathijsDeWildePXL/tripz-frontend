@@ -26,8 +26,6 @@ export const actions = {
 				body: JSON.stringify({ username, password })
 			});
 
-			console.log(response);
-
 			if (!response.ok) {
 				const error = await response.text();
 				return fail(response.status, { error: error || 'Login failed' });
