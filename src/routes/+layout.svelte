@@ -1,12 +1,12 @@
 <script lang="ts">
-	import '../app.css';
-	import favicon from '$lib/assets/favicon.svg';
+    import { user } from "$lib/stores/auth";
 
-	let { children } = $props();
+    if (typeof window !== "undefined") {
+        const saved = localStorage.getItem("user");
+        if (saved) user.set(JSON.parse(saved));
+    }
+
+    $: $user && localStorage.setItem("user", JSON.stringify($user));
 </script>
 
-<svelte:head>
-	<link rel="icon" href={favicon} />
-</svelte:head>
-
-{@render children?.()}
+<slot />
