@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 export const actions: Actions = {
 	default: async ({ request, fetch, locals }) => {
 		const formData = await request.formData();
-		
+
 		const transportType = formData.get('transportType');
 		const departureDate = formData.get('departureDate');
 		const returnDate = formData.get('returnDate');
@@ -20,7 +20,15 @@ export const actions: Actions = {
 		const estimatedCost = formData.get('estimatedCost');
 
 		// Validation
-		if (!transportType || !departureDate || !returnDate || !destination || !distance || !purpose || !estimatedCost) {
+		if (
+			!transportType ||
+			!departureDate ||
+			!returnDate ||
+			!destination ||
+			!distance ||
+			!purpose ||
+			!estimatedCost
+		) {
 			return fail(400, { error: 'All fields are required' });
 		}
 
@@ -60,7 +68,6 @@ export const actions: Actions = {
 				const errorData = await response.json().catch(() => ({ message: 'Failed to create trip' }));
 				return fail(response.status, { error: errorData.message || 'Failed to create trip' });
 			}
-
 		} catch (error) {
 			console.error('Error creating trip:', error);
 			return fail(500, { error: 'An unexpected error occurred while creating the trip' });

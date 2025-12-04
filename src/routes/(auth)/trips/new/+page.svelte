@@ -11,7 +11,7 @@
 		{ value: 2, label: 'Train' },
 		{ value: 3, label: 'Plane' },
 		{ value: 4, label: 'Bus' },
-        { value: 6, label: 'Other' }
+		{ value: 6, label: 'Other' }
 	];
 </script>
 
@@ -20,13 +20,13 @@
 		<div class="mb-6">
 			<button
 				on:click={() => goto('/trips')}
-				class="text-blue-600 hover:text-blue-800 flex items-center"
+				class="flex items-center text-blue-600 hover:text-blue-800"
 			>
 				← Back to Trips
 			</button>
 		</div>
 
-		<div class="bg-white rounded-lg shadow-md p-8">
+		<div class="rounded-lg bg-white p-8 shadow-md">
 			<h1 class="mb-6 text-3xl font-bold text-gray-800">Add New Trip</h1>
 
 			{#if form?.error}
@@ -35,20 +35,23 @@
 				</div>
 			{/if}
 
-			<form method="POST" use:enhance={() => {
-				isSubmitting = true;
-				return async ({ update, result }) => {
-					await update();
-					isSubmitting = false;
-					if (result.type === 'redirect') {
-						goto(result.location);
-					}
-				};
-			}}>
+			<form
+				method="POST"
+				use:enhance={() => {
+					isSubmitting = true;
+					return async ({ update, result }) => {
+						await update();
+						isSubmitting = false;
+						if (result.type === 'redirect') {
+							goto(result.location);
+						}
+					};
+				}}
+			>
 				<div class="space-y-6">
 					<!-- Transport Type -->
 					<div>
-						<label for="transportType" class="block text-sm font-medium text-gray-700 mb-2">
+						<label for="transportType" class="mb-2 block text-sm font-medium text-gray-700">
 							Transport Type *
 						</label>
 						<select
@@ -66,7 +69,7 @@
 
 					<!-- Departure Date -->
 					<div>
-						<label for="departureDate" class="block text-sm font-medium text-gray-700 mb-2">
+						<label for="departureDate" class="mb-2 block text-sm font-medium text-gray-700">
 							Departure Date *
 						</label>
 						<input
@@ -80,7 +83,7 @@
 
 					<!-- Return Date -->
 					<div>
-						<label for="returnDate" class="block text-sm font-medium text-gray-700 mb-2">
+						<label for="returnDate" class="mb-2 block text-sm font-medium text-gray-700">
 							Return Date *
 						</label>
 						<input
@@ -94,7 +97,7 @@
 
 					<!-- Destination -->
 					<div>
-						<label for="destination" class="block text-sm font-medium text-gray-700 mb-2">
+						<label for="destination" class="mb-2 block text-sm font-medium text-gray-700">
 							Destination *
 						</label>
 						<input
@@ -109,7 +112,7 @@
 
 					<!-- Distance -->
 					<div>
-						<label for="distance" class="block text-sm font-medium text-gray-700 mb-2">
+						<label for="distance" class="mb-2 block text-sm font-medium text-gray-700">
 							Distance (km) *
 						</label>
 						<input
@@ -126,7 +129,7 @@
 
 					<!-- Purpose -->
 					<div>
-						<label for="purpose" class="block text-sm font-medium text-gray-700 mb-2">
+						<label for="purpose" class="mb-2 block text-sm font-medium text-gray-700">
 							Purpose *
 						</label>
 						<textarea
@@ -141,7 +144,7 @@
 
 					<!-- Estimated Cost -->
 					<div>
-						<label for="estimatedCost" class="block text-sm font-medium text-gray-700 mb-2">
+						<label for="estimatedCost" class="mb-2 block text-sm font-medium text-gray-700">
 							Estimated Cost (€) *
 						</label>
 						<input
@@ -161,14 +164,14 @@
 						<button
 							type="submit"
 							disabled={isSubmitting}
-							class="flex-1 rounded-lg bg-blue-600 px-6 py-3 text-white font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+							class="flex-1 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
 						>
 							{isSubmitting ? 'Creating...' : 'Create Trip'}
 						</button>
 						<button
 							type="button"
 							on:click={() => goto('/trips')}
-							class="flex-1 rounded-lg bg-gray-200 px-6 py-3 text-gray-700 font-medium hover:bg-gray-300 transition"
+							class="flex-1 rounded-lg bg-gray-200 px-6 py-3 font-medium text-gray-700 transition hover:bg-gray-300"
 						>
 							Cancel
 						</button>
