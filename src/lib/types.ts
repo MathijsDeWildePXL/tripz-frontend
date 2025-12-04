@@ -21,6 +21,17 @@ export type Trip = {
 	submittedAt: string;
 };
 
+export type CreateTripRequest = {
+	userId: number;
+	transportType: number;
+	departureDate: string;
+	returnDate: string;
+	destination: string;
+	distance: number;
+	purpose: string;
+	estimatedCost: number;
+};
+
 export type TripFilters = {
 	employeeId?: string;
 	transportType?: number;
