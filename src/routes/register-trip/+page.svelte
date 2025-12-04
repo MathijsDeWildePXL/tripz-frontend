@@ -1,7 +1,11 @@
 <script lang="ts">
-	const API_URL = import.meta.env.VITE_API_URL;
+	import { validateForm, submitTrip } from './+page';
+	import type { TripFormData } from '$lib/types/trip';
+	import type { PageData } from './$types';
 
-	let formData = {
+	export let data: PageData;
+
+	let formData: TripFormData = {
 		departureDate: '',
 		returnDate: '',
 		destination: '',
@@ -15,96 +19,32 @@
 	let submitted = false;
 	let isLoading = false;
 
-	const transportTypes = [
-		{ value: '1', label: 'Car' },
-		{ value: '2', label: 'Train' },
-		{ value: '3', label: 'Plane' },
-		{ value: '4', label: 'Bus' },
-		{ value: '5', label: 'Other' }
-	];
-
-	async function submitTrip() {
-		isLoading = true;
-		try {
-			const response = await fetch(`${API_URL}/Trips`, {
-				method: 'POST',
-				headers: {
-					Accept: '*/*',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					employeeId: 'EMP006', // TODO: Get from auth context
-					employeeName: 'Diana Prince', // TODO: Get from auth context
-					transportType: parseInt(formData.transportType),
-					departureDate: new Date(formData.departureDate).toISOString(),
-					returnDate: new Date(formData.returnDate).toISOString(),
-					destination: formData.destination,
-					distance: parseInt(formData.distance),
-					purpose: formData.purpose,
-					estimatedCost: parseFloat(formData.estimatedCost)
-				})
-			});
-
-			if (!response.ok) {
-				const errorData = await response.json().catch(() => ({}));
-				throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-			}
-
-			const data = await response.json();
-			console.log('Trip created:', data);
-			submitted = true;
-
-			setTimeout(() => {
-				submitted = false;
-				formData = {
-					departureDate: '',
-					returnDate: '',
-					destination: '',
-					distance: '',
-					transportType: '',
-					purpose: '',
-					estimatedCost: ''
-				};
-				isLoading = false;
-			}, 2000);
-		} catch (error) {
-			console.error('Error submitting trip:', error);
-			errors.submit =
-				error instanceof Error ? error.message : 'An error occurred while submitting the trip';
-			isLoading = false;
-		}
-	}
-
-	function handleSubmit() {
-		errors = {};
-		if (!formData.departureDate) errors.departureDate = 'Departure date is required';
-		if (!formData.returnDate) errors.returnDate = 'Return date is required';
-		if (formData.departureDate && formData.returnDate) {
-			const departure = new Date(formData.departureDate);
-			const returnDate = new Date(formData.returnDate);
-			if (returnDate <= departure) {
-				errors.returnDate = 'Return date must be after departure date';
-			}
-		}
-		if (!formData.destination) errors.destination = 'Destination is required';
-		if (!formData.distance) {
-			errors.distance = 'Distance is required';
-		} else if (isNaN(parseFloat(formData.distance)) || parseFloat(formData.distance) <= 0) {
-			errors.distance = 'Distance must be a positive number';
-		}
-		if (!formData.transportType) errors.transportType = 'Transport type is required';
-		if (!formData.purpose) errors.purpose = 'Purpose is required';
-		if (!formData.estimatedCost) {
-			errors.estimatedCost = 'Cost is required';
-		} else if (
-			isNaN(parseFloat(formData.estimatedCost)) ||
-			parseFloat(formData.estimatedCost) < 0
-		) {
-			errors.estimatedCost = 'Cost must be a positive number';
-		}
+	async function handleSubmit() {
+		errors = validateForm(formData);
 
 		if (Object.keys(errors).length === 0) {
-			submitTrip();
+			isLoading = true;
+			const result = await submitTrip(formData);
+
+			if (result.success) {
+				submitted = true;
+				setTimeout(() => {
+					submitted = false;
+					formData = {
+						departureDate: '',
+						returnDate: '',
+						destination: '',
+						distance: '',
+						transportType: '',
+						purpose: '',
+						estimatedCost: ''
+					};
+					isLoading = false;
+				}, 2000);
+			} else {
+				errors.submit = result.error || 'An error occurred while submitting the trip';
+				isLoading = false;
+			}
 		}
 	}
 
@@ -238,7 +178,7 @@
 						}`}
 					>
 						<option value="">Select transport type</option>
-						{#each transportTypes as type (type.value)}
+						{#each data.transportTypes as type (type.value)}
 							<option value={type.value}>{type.label}</option>
 						{/each}
 					</select>
