@@ -35,12 +35,6 @@
 				</div>
 			{/if}
 
-			{#if form?.success}
-				<div class="mb-4 rounded-lg bg-green-50 p-4 text-green-800">
-					Trip created successfully! Redirecting...
-				</div>
-			{/if}
-
 			<form method="POST" use:enhance={() => {
 				isSubmitting = true;
 				return async ({ update, result }) => {
