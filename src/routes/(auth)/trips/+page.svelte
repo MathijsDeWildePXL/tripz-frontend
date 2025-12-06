@@ -143,7 +143,9 @@
 				</div>
 			{:else}
 				{#each data.trips as trip (trip.id)}
-					<TripCard {trip} />
+					<a href="/trips/{trip.id}" class="block">
+						<TripCard {trip} />
+					</a>
 				{/each}
 			{/if}
 		</div>

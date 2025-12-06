@@ -20,7 +20,7 @@
 	}
 </script>
 
-<div class="rounded-lg bg-white p-6 shadow transition hover:shadow-md">
+<div class="cursor-pointer rounded-lg bg-white p-6 shadow transition hover:shadow-md">
 	<div class="flex items-start justify-between">
 		<div class="flex-1">
 			<div class="mb-2 flex items-center gap-3">
