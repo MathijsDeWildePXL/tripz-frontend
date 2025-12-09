@@ -1,6 +1,7 @@
 import type { PageServerLoad, Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import type { CreateTripRequest } from '$lib/types';
+import { env } from '$env/dynamic/public';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	const { user } = await parent();
@@ -56,7 +57,7 @@ export const actions: Actions = {
 				estimatedCost: parseFloat(estimatedCost as string)
 			};
 
-			const response = await fetch('http://localhost:8080/trips', {
+			const response = await fetch(`${env.PUBLIC_API_URL}/trips`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

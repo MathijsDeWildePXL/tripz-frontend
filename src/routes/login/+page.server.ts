@@ -1,5 +1,6 @@
 import type { PageServerLoad, Actions } from './$types';
 import { redirect, fail } from '@sveltejs/kit';
+import { env } from '$env/dynamic/public';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -18,7 +19,7 @@ export const actions = {
 		}
 
 		try {
-			const response = await fetch('http://localhost:8080/auth/login', {
+			const response = await fetch(`${env.PUBLIC_API_URL}/auth/login`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

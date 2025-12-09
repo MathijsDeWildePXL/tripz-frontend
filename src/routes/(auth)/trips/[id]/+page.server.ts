@@ -1,11 +1,12 @@
 import type { PageServerLoad, Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
+import { env } from '$env/dynamic/public';
 
 export const load: PageServerLoad = async ({ params, fetch, parent }) => {
 	const { user } = await parent();
 
 	try {
-		const response = await fetch(`http://localhost:8080/trips/${params.id}`);
+		const response = await fetch(`${env.PUBLIC_API_URL}/trips/${params.id}`);
 		if (!response.ok) {
 			throw new Error('Failed to fetch trip');
 		}
@@ -26,7 +27,7 @@ export const actions = {
 		const reason = formData.get('reason')?.toString();
 
 		try {
-			const response = await fetch(`http://localhost:8080/trips/${params.id}/approve`, {
+			const response = await fetch(`${env.PUBLIC_API_URL}/trips/${params.id}/approve`, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json'
@@ -72,7 +73,7 @@ export const actions = {
 		}
 
 		try {
-			const response = await fetch(`http://localhost:8080/trips/${params.id}/approve`, {
+			const response = await fetch(`${env.PUBLIC_API_URL}/trips/${params.id}/approve`, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json'
