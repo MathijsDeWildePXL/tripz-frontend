@@ -20,7 +20,7 @@ export const actions = {
 
 		try {
 			console.log('Attempting login to:', `${env.PUBLIC_API_URL}/auth/login`);
-			
+
 			const response = await fetch(`${env.PUBLIC_API_URL}/auth/login`, {
 				method: 'POST',
 				headers: {
