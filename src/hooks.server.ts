@@ -9,7 +9,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 			event.locals.user = JSON.parse(userCookie) as User;
 		} catch {
 			event.cookies.delete('user', { path: '/' });
-			event.locals.user = undefined;
 		}
 	}
 
