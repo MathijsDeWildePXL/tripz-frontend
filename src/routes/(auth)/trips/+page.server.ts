@@ -1,4 +1,5 @@
 import type { PageServerLoad } from './$types';
+import { env } from '$env/dynamic/public';
 
 export const load: PageServerLoad = async ({ url, fetch, parent }) => {
 	const { user } = await parent();
@@ -19,7 +20,7 @@ export const load: PageServerLoad = async ({ url, fetch, parent }) => {
 	params.append('pageSize', pageSize);
 
 	const queryString = params.toString();
-	const apiUrl = `http://localhost:8080/trips${queryString ? `?${queryString}` : ''}`;
+	const apiUrl = `${env.PUBLIC_API_URL}/trips${queryString ? `?${queryString}` : ''}`;
 
 	try {
 		const response = await fetch(apiUrl);
