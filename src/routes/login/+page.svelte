@@ -1,8 +1,14 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
+	import { browser } from '$app/environment';
 
 	export let form: ActionData;
+
+	$: if (browser && form?.error) {
+		console.error('Login error:', form.error);
+		console.error('Form data:', form);
+	}
 </script>
 
 <div
