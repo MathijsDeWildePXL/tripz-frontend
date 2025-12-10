@@ -30,8 +30,6 @@ export const actions = {
 
 		try {
 			const loginUrl = `${apiUrl}/auth/login`;
-			console.log('Attempting login to:', loginUrl);
-			console.log('Environment:', process.env.NODE_ENV);
 
 			const response = await fetch(loginUrl, {
 				method: 'POST',
@@ -40,8 +38,6 @@ export const actions = {
 				},
 				body: JSON.stringify({ username, password })
 			});
-
-			console.log('Login response status:', response.status);
 
 			if (!response.ok) {
 				const error = await response.text();
@@ -53,7 +49,6 @@ export const actions = {
 			}
 
 			const user = await response.json();
-			console.log('Login successful for user:', user.id);
 
 			cookies.set('user', JSON.stringify(user), {
 				path: '/',
