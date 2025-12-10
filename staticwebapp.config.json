@@ -1,0 +1,26 @@
+{
+	"navigationFallback": {
+		"rewrite": "/index.html",
+		"exclude": ["/_app/*", "/favicon.png"]
+	},
+	"routes": [
+		{
+			"route": "/*",
+			"allowedRoles": ["anonymous", "authenticated"]
+		}
+	],
+	"responseOverrides": {
+		"404": {
+			"rewrite": "/index.html",
+			"statusCode": 200
+		}
+	},
+	"globalHeaders": {
+		"Cache-Control": "no-cache, no-store, must-revalidate"
+	},
+	"mimeTypes": {
+		".json": "application/json",
+		".js": "text/javascript",
+		".css": "text/css"
+	}
+}
