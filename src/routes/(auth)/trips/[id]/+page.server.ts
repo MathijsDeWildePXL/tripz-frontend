@@ -1,5 +1,5 @@
 import type { PageServerLoad, Actions } from './$types';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
 
 export const load: PageServerLoad = async ({ params, fetch, parent }) => {
@@ -26,35 +26,30 @@ export const actions = {
 		const formData = await request.formData();
 		const reason = formData.get('reason')?.toString();
 
-		try {
-			const response = await fetch(`${env.PUBLIC_API_URL}/trips/${params.id}/approve`, {
-				method: 'PATCH',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					status: 2, // Approved
-					reason: reason || null
-				})
-			});
+		const response = await fetch(`${env.PUBLIC_API_URL}/trips/${params.id}/approve`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				status: 2, // Approved
+				reason: reason || null
+			})
+		});
 
-			if (!response.ok) {
-				let errorMessage = 'Failed to approve trip';
-				try {
-					const error = await response.json();
-					errorMessage = error.message || errorMessage;
-				} catch {
-					// If JSON parsing fails, use default message
-				}
-				return fail(response.status, { error: errorMessage });
+		if (!response.ok) {
+			let errorMessage = 'Failed to approve trip';
+			try {
+				const error = await response.json();
+				errorMessage = error.message || errorMessage;
+			} catch {
+				// If JSON parsing fails, use default message
 			}
-
-			throw redirect(303, '/trips');
-		} catch (error) {
-			if (error instanceof Response) throw error;
-			console.error('Error approving trip:', error);
-			return fail(500, { error: 'An unexpected error occurred while approving the trip' });
+			return fail(response.status, { error: errorMessage });
 		}
+
+		const updatedTrip = await response.json();
+		return { success: true, trip: updatedTrip };
 	},
 
 	reject: async ({ request, params, fetch }) => {
@@ -72,34 +67,29 @@ export const actions = {
 			});
 		}
 
-		try {
-			const response = await fetch(`${env.PUBLIC_API_URL}/trips/${params.id}/approve`, {
-				method: 'PATCH',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					status: 3, // Rejected
-					reason: reason
-				})
-			});
+		const response = await fetch(`${env.PUBLIC_API_URL}/trips/${params.id}/approve`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				status: 3, // Rejected
+				reason: reason
+			})
+		});
 
-			if (!response.ok) {
-				let errorMessage = 'Failed to reject trip';
-				try {
-					const error = await response.json();
-					errorMessage = error.message || errorMessage;
-				} catch {
-					// If JSON parsing fails, use default message
-				}
-				return fail(response.status, { error: errorMessage });
+		if (!response.ok) {
+			let errorMessage = 'Failed to reject trip';
+			try {
+				const error = await response.json();
+				errorMessage = error.message || errorMessage;
+			} catch {
+				// If JSON parsing fails, use default message
 			}
-
-			throw redirect(303, '/trips');
-		} catch (error) {
-			if (error instanceof Response) throw error;
-			console.error('Error rejecting trip:', error);
-			return fail(500, { error: 'An unexpected error occurred while rejecting the trip' });
+			return fail(response.status, { error: errorMessage });
 		}
+
+		const updatedTrip = await response.json();
+		return { success: true, trip: updatedTrip };
 	}
 } satisfies Actions;

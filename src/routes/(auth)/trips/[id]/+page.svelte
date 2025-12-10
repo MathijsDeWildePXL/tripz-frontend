@@ -11,7 +11,7 @@
 	let approveReason = '';
 	let rejectReason = '';
 
-	const trip = data.trip;
+	$: trip = form?.trip || data.trip;
 
 	function formatDate(dateString: string | null | undefined): string {
 		if (!dateString) return 'N/A';
@@ -70,6 +70,14 @@
 				← Back to Trips
 			</button>
 		</div>
+
+		<!-- Success Message -->
+		{#if form?.success}
+			<div class="mb-6 rounded-lg bg-green-50 p-4 text-green-800">
+				<p class="font-medium">Success</p>
+				<p class="text-sm">Trip has been {trip.status.toLowerCase()} successfully.</p>
+			</div>
+		{/if}
 
 		<!-- Error Message -->
 		{#if form?.error}
@@ -188,10 +196,9 @@
 				method="POST"
 				action="?/approve"
 				use:enhance={() => {
-					return async ({ result }) => {
-						if (result.type === 'redirect') {
-							closeApproveModal();
-						}
+					return async ({ update }) => {
+						closeApproveModal();
+						await update();
 					};
 				}}
 			>
@@ -254,10 +261,9 @@
 				method="POST"
 				action="?/reject"
 				use:enhance={() => {
-					return async ({ result }) => {
-						if (result.type === 'redirect') {
-							closeRejectModal();
-						}
+					return async ({ update }) => {
+						closeRejectModal();
+						await update();
 					};
 				}}
 			>

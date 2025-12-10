@@ -61,7 +61,7 @@
 							class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-blue-500"
 						>
 							<option value="">Select transport type</option>
-							{#each transportTypes as type}
+							{#each transportTypes as type (type.value)}
 								<option value={type.value}>{type.label}</option>
 							{/each}
 						</select>
