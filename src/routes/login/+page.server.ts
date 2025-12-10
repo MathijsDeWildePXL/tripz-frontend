@@ -19,6 +19,8 @@ export const actions = {
 		}
 
 		try {
+			console.log('Attempting login to:', `${env.PUBLIC_API_URL}/auth/login`);
+			
 			const response = await fetch(`${env.PUBLIC_API_URL}/auth/login`, {
 				method: 'POST',
 				headers: {
@@ -27,12 +29,16 @@ export const actions = {
 				body: JSON.stringify({ username, password })
 			});
 
+			console.log('Login response status:', response.status);
+
 			if (!response.ok) {
 				const error = await response.text();
+				console.error('Login failed:', error);
 				return fail(response.status, { error: error || 'Login failed' });
 			}
 
 			const user = await response.json();
+			console.log('Login successful for user:', user.id);
 
 			cookies.set('user', JSON.stringify(user), {
 				path: '/',
@@ -47,6 +53,7 @@ export const actions = {
 			if (err && typeof err === 'object' && 'status' in err && 'location' in err) {
 				throw err;
 			}
+			console.error('Unexpected error during login:', err);
 			return fail(500, { error: 'An unexpected error occurred' });
 		}
 	}
