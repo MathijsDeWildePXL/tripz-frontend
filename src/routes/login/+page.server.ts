@@ -18,10 +18,22 @@ export const actions = {
 			return fail(400, { error: 'Username and password are required' });
 		}
 
-		try {
-			console.log('Attempting login to:', `${env.PUBLIC_API_URL}/auth/login`);
+		// Check if API URL is configured
+		const apiUrl =
+			env.PUBLIC_API_URL ||
+			'https://tripz-backend-cpdxdrgybpf0gpcm.germanywestcentral-01.azurewebsites.net';
 
-			const response = await fetch(`${env.PUBLIC_API_URL}/auth/login`, {
+		if (!apiUrl) {
+			console.error('PUBLIC_API_URL is not configured');
+			return fail(500, { error: 'Server configuration error: API URL not set' });
+		}
+
+		try {
+			const loginUrl = `${apiUrl}/auth/login`;
+			console.log('Attempting login to:', loginUrl);
+			console.log('Environment:', process.env.NODE_ENV);
+
+			const response = await fetch(loginUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -34,7 +46,10 @@ export const actions = {
 			if (!response.ok) {
 				const error = await response.text();
 				console.error('Login failed:', error);
-				return fail(response.status, { error: error || 'Login failed' });
+				return fail(response.status, {
+					error: error || 'Login failed',
+					debug: { status: response.status, apiUrl: loginUrl }
+				});
 			}
 
 			const user = await response.json();
@@ -43,7 +58,7 @@ export const actions = {
 			cookies.set('user', JSON.stringify(user), {
 				path: '/',
 				httpOnly: true,
-				secure: process.env.NODE_ENV === 'production',
+				secure: true, // Always use secure in production
 				sameSite: 'strict',
 				maxAge: 60 * 60 * 24 * 7 // 1 week
 			});
@@ -54,7 +69,10 @@ export const actions = {
 				throw err;
 			}
 			console.error('Unexpected error during login:', err);
-			return fail(500, { error: 'An unexpected error occurred' });
+			return fail(500, {
+				error: 'An unexpected error occurred',
+				debug: { message: err instanceof Error ? err.message : 'Unknown error' }
+			});
 		}
 	}
 } satisfies Actions;
