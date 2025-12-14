@@ -28,9 +28,10 @@
 					{#each navItems as item (item.label)}
 						<a
 							href={item.href}
-							class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium { $page.url.pathname === item.href
+							class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium {$page.url
+								.pathname === item.href
 								? 'border-blue-500 text-gray-900'
-								: 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700' }"
+								: 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'}"
 						>
 							{item.label}
 						</a>
@@ -51,11 +52,18 @@
 						>
 							<span class="sr-only">Open user menu</span>
 							<div class="flex items-center gap-2">
-								<div class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">
+								<div
+									class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white"
+								>
 									{user.nickname.charAt(0).toUpperCase()}
 								</div>
 								<span class="text-gray-700">{user.nickname}</span>
-								<svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+								<svg
+									class="h-5 w-5 text-gray-400"
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
 									<path
 										fill-rule="evenodd"
 										d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
@@ -79,7 +87,11 @@
 								<p class="mt-1 text-xs text-gray-500">Role: {user.role}</p>
 							</div>
 							<form method="POST" action="/logout">
-								<button type="submit" class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+								<button
+									type="submit"
+									class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+									role="menuitem"
+								>
 									Sign out
 								</button>
 							</form>
@@ -90,4 +102,3 @@
 		</div>
 	</div>
 </nav>
-
