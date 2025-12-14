@@ -1,6 +1,11 @@
 import type { PageServerLoad } from './$types';
 import { env } from '$env/dynamic/public';
 
+// Allow self-signed certificates in development
+if (process.env.NODE_ENV !== 'production') {
+	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
+
 export const load: PageServerLoad = async ({ url, fetch, parent }) => {
 	const { user } = await parent();
 
@@ -42,3 +47,4 @@ export const load: PageServerLoad = async ({ url, fetch, parent }) => {
 		};
 	}
 };
+

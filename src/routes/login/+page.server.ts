@@ -2,6 +2,11 @@ import type { PageServerLoad, Actions } from './$types';
 import { redirect, fail } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
 
+// Allow self-signed certificates in development
+if (process.env.NODE_ENV !== 'production') {
+	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
+
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
 		throw redirect(302, '/');
