@@ -1,10 +1,7 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
 
-// Allow self-signed certificates in development
-if (process.env.NODE_ENV !== 'production') {
-	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-}
+
 
 export const load = async (event: RequestEvent) => {
 	const { fetch, locals } = event;
