@@ -1,7 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { env } from '$env/dynamic/public';
 
-
 export const load: PageServerLoad = async ({ url, fetch, parent }) => {
 	const { user } = await parent();
 

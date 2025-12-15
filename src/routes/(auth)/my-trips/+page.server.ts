@@ -1,8 +1,6 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
 
-
-
 export const load = async (event: RequestEvent) => {
 	const { fetch, locals } = event;
 	const { user } = locals;
