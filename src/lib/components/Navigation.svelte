@@ -12,7 +12,8 @@
 
 	const navItems = [
 		{ href: '/', label: 'Dashboard' },
-		{ href: '/trips', label: 'Trips' },
+		{ href: '/trips', label: 'All Trips' },
+		{ href: '/my-trips', label: 'My Trips' },
 		{ href: '/reports', label: 'Reports' }
 	];
 </script>
