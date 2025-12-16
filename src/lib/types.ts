@@ -38,3 +38,9 @@ export type TripFilters = {
 	month?: number;
 	year?: number;
 };
+
+export type ReimbursementSummary = {
+	totalReimbursement: number;
+	byMonth: Record<string, number>;
+	byTransportType: Record<string, number>;
+};

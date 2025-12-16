@@ -78,6 +78,8 @@
 						<option value="2">Train</option>
 						<option value="3">Plane</option>
 						<option value="4">Bus</option>
+						<option value="5">Bike</option>
+						<option value="6">Other</option>
 					</select>
 				</div>
 

@@ -11,6 +11,7 @@
 		{ value: 2, label: 'Train' },
 		{ value: 3, label: 'Plane' },
 		{ value: 4, label: 'Bus' },
+		{ value: 5, label: 'Bike' },
 		{ value: 6, label: 'Other' }
 	];
 </script>
